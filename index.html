@@ -6,16 +6,22 @@
     <title>LuaRobloxScript - Лучшие скрипты для Roblox</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00ff88;
-            --secondary: #ff00ff;
-            --accent: #00d4ff;
-            --dark: #0a0e1a;
-            --card-bg: #131829;
-            --text: #e8edf5;
-            --text-dim: #8b95a8;
+            --primary: #00d9ff;
+            --secondary: #7000ff;
+            --accent: #ff00e5;
+            --success: #00ff88;
+            --warning: #ffd700;
+            --error: #ff3366;
+            --bg-dark: #0a0e27;
+            --bg-darker: #060a1a;
+            --card-bg: #0f1535;
+            --card-hover: #141a42;
+            --text: #e8f0ff;
+            --text-dim: #8b9dc3;
+            --text-dimmer: #5a6b8c;
         }
 
         * {
@@ -25,8 +31,8 @@
         }
 
         body {
-            font-family: 'Exo 2', sans-serif;
-            background: var(--dark);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
             color: var(--text);
             overflow-x: hidden;
             position: relative;
@@ -40,23 +46,38 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.04) 0%, transparent 70%);
+                radial-gradient(circle at 15% 20%, rgba(0, 217, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(112, 0, 255, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 229, 0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
+            animation: bgPulse 15s ease-in-out infinite;
         }
 
-        .grain {
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
+        }
+
+        body::after {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            background-image: 
+                linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
-            z-index: 1;
-            opacity: 0.5;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
         }
 
         .container {
@@ -67,15 +88,43 @@
             padding: 0 24px;
         }
 
-        /* Header */
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--success), #00cc70);
+            color: white;
+            padding: 20px 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4);
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
         header {
-            padding: 32px 0;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 24px 0;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(10, 14, 39, 0.7);
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(10, 14, 26, 0.8);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         nav {
@@ -85,26 +134,26 @@
         }
 
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            animation: glow 3s ease-in-out infinite;
+            animation: logoGlow 3s ease-in-out infinite;
         }
 
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.4)); }
-            50% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.6)); }
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.5)) drop-shadow(0 0 20px rgba(112, 0, 255, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.8)) drop-shadow(0 0 30px rgba(112, 0, 255, 0.5)); }
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 40px;
             list-style: none;
             align-items: center;
         }
@@ -112,120 +161,191 @@
         .nav-links a {
             color: var(--text);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 15px;
+            font-weight: 600;
+            font-size: 16px;
             transition: all 0.3s ease;
             position: relative;
-            padding: 8px 0;
+            padding: 10px 0;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
-        .nav-links a::after {
+        .nav-links a::before {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 0;
-            height: 2px;
-            background: var(--primary);
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             transition: width 0.3s ease;
+            border-radius: 10px;
         }
 
         .nav-links a:hover {
             color: var(--primary);
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::before {
             width: 100%;
         }
 
         .telegram-link {
             background: linear-gradient(135deg, #0088cc, #00aaff) !important;
-            padding: 8px 20px !important;
-            border-radius: 8px !important;
+            padding: 12px 28px !important;
+            border-radius: 12px !important;
             color: white !important;
             transition: all 0.3s ease !important;
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
         }
 
         .telegram-link:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 24px rgba(0, 136, 204, 0.4) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 30px rgba(0, 136, 204, 0.6) !important;
         }
 
-        .telegram-link::after {
+        .telegram-link::before {
             display: none !important;
         }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 100px 0 80px;
-            position: relative;
+        /* Stats Section */
+        .stats-section {
+            padding: 60px 0;
+            animation: fadeIn 1s ease-out 0.2s backwards;
         }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 72px;
-            font-weight: 900;
-            margin-bottom: 24px;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #ffffff, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: slideDown 0.8s ease-out;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: var(--text-dim);
-            max-width: 700px;
-            margin: 0 auto 48px;
-            line-height: 1.7;
-            animation: fadeIn 0.8s ease-out 0.2s backwards;
-        }
-
-        .telegram-banner {
-            max-width: 800px;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: linear-gradient(135deg, rgba(0, 136, 204, 0.15), rgba(0, 170, 255, 0.1));
-            border: 2px solid rgba(0, 136, 204, 0.3);
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(0, 217, 255, 0.2);
             border-radius: 20px;
             padding: 32px;
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            animation: fadeIn 0.8s ease-out 0.4s backwards;
+            text-align: center;
             transition: all 0.3s ease;
         }
 
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+
+        h1 {
+            font-size: 84px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            line-height: 1;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleSlide 1s ease-out;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @keyframes titleSlide {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero p {
+            font-size: 22px;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto 56px;
+            line-height: 1.8;
+            animation: fadeIn 1s ease-out 0.3s backwards;
+            font-weight: 500;
+        }
+
+        .telegram-banner {
+            max-width: 850px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.25), rgba(0, 170, 255, 0.15));
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            animation: fadeIn 1s ease-out 0.5s backwards;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .telegram-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
         .telegram-banner:hover {
-            border-color: rgba(0, 136, 204, 0.6);
-            box-shadow: 0 12px 48px rgba(0, 136, 204, 0.2);
-            transform: translateY(-4px);
+            border-color: rgba(0, 170, 255, 0.7);
+            box-shadow: 0 20px 60px rgba(0, 136, 204, 0.3);
+            transform: translateY(-8px);
         }
 
         .telegram-icon {
-            font-size: 64px;
+            font-size: 72px;
             flex-shrink: 0;
-            animation: float 3s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(0, 136, 204, 0.6));
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(-5deg); }
+            75% { transform: translateY(-10px) rotate(5deg); }
         }
 
         .telegram-info {
@@ -233,143 +353,150 @@
         }
 
         .telegram-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--text);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .telegram-desc {
-            font-size: 16px;
+            font-size: 17px;
             color: var(--text-dim);
+            font-weight: 500;
         }
 
         .telegram-btn {
             background: linear-gradient(135deg, #0088cc, #00aaff);
             color: white;
-            padding: 16px 32px;
-            border-radius: 12px;
+            padding: 18px 36px;
+            border-radius: 14px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
+            font-weight: 700;
+            font-size: 17px;
             transition: all 0.3s ease;
             white-space: nowrap;
-            box-shadow: 0 8px 24px rgba(0, 136, 204, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 136, 204, 0.4);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .telegram-btn:hover {
-            transform: translateX(5px);
-            box-shadow: 0 12px 32px rgba(0, 136, 204, 0.5);
+            transform: translateX(8px);
+            box-shadow: 0 15px 40px rgba(0, 136, 204, 0.6);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Filter Section */
+        .filter-section {
+            margin: 60px 0 40px;
+            animation: fadeIn 1s ease-out 0.7s backwards;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 18px 48px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            background: var(--card-bg);
+            border: 2px solid rgba(0, 217, 255, 0.3);
             border-radius: 12px;
+            color: var(--text);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
-            animation: fadeIn 0.8s ease-out 0.4s backwards;
+            font-family: 'Rajdhani', sans-serif;
         }
 
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 48px rgba(0, 255, 136, 0.5);
+        .filter-btn:hover {
+            border-color: var(--primary);
+            background: rgba(0, 217, 255, 0.1);
         }
 
-        /* Search Bar */
-        .search-section {
-            margin: 60px 0;
-            animation: fadeIn 0.8s ease-out 0.6s backwards;
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 5px 20px rgba(0, 217, 255, 0.4);
         }
 
         .search-bar {
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
-            position: relative;
         }
 
         .search-bar input {
             width: 100%;
-            padding: 20px 24px;
+            padding: 24px 28px;
             background: var(--card-bg);
-            border: 2px solid rgba(0, 255, 136, 0.2);
-            border-radius: 16px;
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 18px;
             color: var(--text);
-            font-size: 16px;
-            font-family: 'Exo 2', sans-serif;
+            font-size: 17px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .search-bar input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 32px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 40px rgba(0, 217, 255, 0.3);
+            background: var(--card-hover);
         }
 
         .search-bar input::placeholder {
-            color: var(--text-dim);
+            color: var(--text-dimmer);
         }
 
-        /* Scripts Grid */
         .scripts-section {
-            padding: 40px 0 100px;
+            padding: 40px 0 80px;
         }
 
         .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 36px;
+            font-size: 48px;
             font-weight: 700;
-            margin-bottom: 48px;
+            margin-bottom: 60px;
             text-align: center;
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         .scripts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 36px;
         }
 
         .script-card {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(0, 255, 136, 0.1);
+            border: 2px solid rgba(0, 217, 255, 0.15);
             cursor: pointer;
             position: relative;
-            animation: cardAppear 0.6s ease-out backwards;
+            opacity: 0;
+            transform: translateY(40px);
         }
 
-        .script-card:nth-child(1) { animation-delay: 0.1s; }
-        .script-card:nth-child(2) { animation-delay: 0.2s; }
-        .script-card:nth-child(3) { animation-delay: 0.3s; }
-        .script-card:nth-child(4) { animation-delay: 0.4s; }
-        .script-card:nth-child(5) { animation-delay: 0.5s; }
-        .script-card:nth-child(6) { animation-delay: 0.6s; }
+        .script-card.visible {
+            animation: cardAppear 0.6s ease-out forwards;
+        }
 
         @keyframes cardAppear {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -383,32 +510,80 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(112, 0, 255, 0.15));
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .script-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-12px);
             border-color: var(--primary);
-            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 25px 70px rgba(0, 217, 255, 0.25);
         }
 
         .script-card:hover::before {
             opacity: 1;
         }
 
+        .new-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: linear-gradient(135deg, #ff00e5, #ff0080);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(255, 0, 229, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         .card-image {
             width: 100%;
-            height: 220px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #1a2332, #2d3e5c);
+            height: 200px;
+            position: relative;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 48px;
-            color: var(--primary);
+            transition: transform 0.4s ease;
+        }
+
+        .card-image-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(20px);
+            opacity: 0.6;
+        }
+
+        .card-image-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 90px;
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        .script-card:hover .card-image {
+            transform: scale(1.08);
         }
 
         .card-content {
@@ -416,108 +591,106 @@
         }
 
         .card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             color: var(--text);
-        }
-
-        .card-date {
-            font-size: 13px;
-            color: var(--text-dim);
-            margin-bottom: 16px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .card-description {
             font-size: 15px;
             color: var(--text-dim);
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 20px;
+            font-weight: 500;
         }
 
         .card-tags {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .tag {
-            padding: 6px 14px;
-            background: rgba(0, 255, 136, 0.15);
+            padding: 8px 16px;
+            background: rgba(0, 217, 255, 0.2);
             color: var(--primary);
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border: 1px solid rgba(0, 255, 136, 0.3);
+            border: 1px solid rgba(0, 217, 255, 0.4);
+            transition: all 0.3s ease;
         }
 
-        /* Footer */
-        footer {
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0;
             background: var(--card-bg);
-            padding: 48px 0;
-            border-top: 1px solid rgba(0, 255, 136, 0.1);
             margin-top: 80px;
+            border-top: 2px solid rgba(0, 217, 255, 0.2);
         }
 
-        .footer-content {
+        .faq-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 32px;
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .footer-section h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--primary);
-            text-transform: uppercase;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-
-        .footer-section a {
-            color: var(--text-dim);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 14px;
-        }
-
-        .footer-section a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 32px;
-            border-top: 1px solid rgba(0, 255, 136, 0.1);
-            color: var(--text-dim);
-            font-size: 14px;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 28px;
+        .faq-item {
+            background: rgba(10, 14, 39, 0.6);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
+        .faq-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.2);
+        }
 
-        /* Modal */
+        .faq-question {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .faq-toggle {
+            font-size: 28px;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: var(--text-dim);
+            font-size: 16px;
+            line-height: 1.8;
+            margin-top: 0;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+            margin-top: 16px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -526,9 +699,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 14, 26, 0.95);
+            background: rgba(6, 10, 26, 0.95);
             backdrop-filter: blur(10px);
-            animation: fadeIn 0.3s ease;
         }
 
         .modal.active {
@@ -539,74 +711,199 @@
 
         .modal-content {
             background: var(--card-bg);
-            border-radius: 24px;
-            padding: 48px;
-            max-width: 800px;
+            border-radius: 28px;
+            padding: 56px;
+            max-width: 950px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 88vh;
             overflow-y: auto;
             border: 2px solid var(--primary);
-            box-shadow: 0 20px 80px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 30px 100px rgba(0, 217, 255, 0.4);
             position: relative;
-            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: modalSlide 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(60px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .close-btn {
             position: absolute;
-            top: 20px;
-            right: 24px;
-            font-size: 36px;
+            top: 24px;
+            right: 28px;
+            font-size: 40px;
             color: var(--text-dim);
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            background: rgba(255, 51, 102, 0.1);
         }
 
         .close-btn:hover {
-            color: var(--primary);
-            background: rgba(0, 255, 136, 0.1);
+            color: var(--error);
+            background: rgba(255, 51, 102, 0.2);
             transform: rotate(90deg);
         }
 
         .modal-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
+            font-size: 40px;
             font-weight: 700;
             margin-bottom: 32px;
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subscription-check {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.25), rgba(0, 170, 255, 0.15));
+            border: 2px solid rgba(0, 170, 255, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .subscription-check h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #00aaff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subscription-check p {
+            color: var(--text-dim);
+            margin-bottom: 28px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .subscribe-btn {
+            display: inline-block;
+            padding: 18px 48px;
+            background: linear-gradient(135deg, #0088cc, #00aaff);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(0, 136, 204, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 136, 204, 0.6);
+        }
+
+        .check-subscription-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 2px solid var(--success);
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .check-subscription-btn:hover {
+            background: rgba(0, 255, 136, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .scripts-list {
+            display: none;
+        }
+
+        .scripts-list.visible {
+            display: block;
+        }
+
+        .script-item {
+            background: rgba(10, 14, 39, 0.6);
+            border: 2px solid rgba(0, 217, 255, 0.25);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .script-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .script-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .script-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .script-status {
+            padding: 8px 16px;
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .script-status.not-working {
+            background: rgba(255, 51, 102, 0.2);
+            color: var(--error);
+        }
+
+        .script-status.key-required {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--warning);
         }
 
         .script-box {
-            background: rgba(10, 14, 26, 0.6);
-            border: 2px solid rgba(0, 255, 136, 0.2);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            position: relative;
+            background: rgba(6, 10, 26, 0.9);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 16px;
         }
 
         .script-box pre {
             color: var(--text);
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: auto;
             margin: 0;
             white-space: pre-wrap;
@@ -615,88 +912,111 @@
 
         .copy-btn {
             width: 100%;
-            padding: 18px 32px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
+            padding: 16px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
             border: none;
             border-radius: 12px;
-            font-family: 'Exo 2', sans-serif;
-            font-size: 18px;
-            font-weight: 600;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
         }
 
         .copy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 48px rgba(0, 255, 136, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 217, 255, 0.5);
         }
 
-        .copy-btn:active {
-            transform: translateY(0);
+        footer {
+            background: var(--card-bg);
+            padding: 60px 0;
+            border-top: 2px solid rgba(0, 217, 255, 0.2);
+            margin-top: 100px;
         }
 
-        .copy-btn.copied {
-            background: linear-gradient(135deg, #00ff88, #00ff88);
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 50px;
+            margin-bottom: 40px;
         }
 
-        /* Responsive */
+        .footer-section h3 {
+            font-size: 22px;
+            margin-bottom: 24px;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 14px;
+        }
+
+        .footer-section a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 217, 255, 0.15);
+            color: var(--text-dim);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 32px;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
-            h1 {
-                font-size: 48px;
-            }
-
-            .hero p {
-                font-size: 18px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .scripts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-content {
-                padding: 32px 24px;
-                width: 95%;
-            }
-
-            .modal-title {
-                font-size: 24px;
-            }
-
-            .telegram-banner {
-                flex-direction: column;
-                text-align: center;
-                padding: 24px;
-            }
-
-            .telegram-icon {
-                font-size: 48px;
-            }
-
-            .telegram-btn {
-                width: 100%;
-            }
+            h1 { font-size: 52px; }
+            .hero p { font-size: 18px; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .scripts-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            .modal-content { padding: 36px 28px; width: 95%; }
+            .modal-title { font-size: 28px; }
+            .telegram-banner { flex-direction: column; text-align: center; padding: 32px; }
+            .telegram-icon { font-size: 56px; }
+            .telegram-btn { width: 100%; }
+            .script-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .filter-controls { gap: 10px; }
+            .filter-btn { padding: 10px 20px; font-size: 13px; }
         }
     </style>
 </head>
 <body>
-    <div class="grain"></div>
-    
+    <div id="toast" class="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-text">Скрипт скопирован!</span>
+    </div>
+
     <header>
         <div class="container">
             <nav>
@@ -704,6 +1024,7 @@
                 <ul class="nav-links">
                     <li><a href="#home">Главная</a></li>
                     <li><a href="#scripts">Скрипты</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                     <li><a href="https://t.me/Lua_Rbx" target="_blank" class="telegram-link">📱 Telegram</a></li>
                 </ul>
                 <button class="mobile-menu-btn">☰</button>
@@ -712,16 +1033,38 @@
     </header>
 
     <main>
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎮</div>
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Игр</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📜</div>
+                        <div class="stat-number">42</div>
+                        <div class="stat-label">Скриптов</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-number">5.2K</div>
+                        <div class="stat-label">Пользователей</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="hero">
             <div class="container">
                 <h1>Лучшие Lua Скрипты<br>для Roblox</h1>
-                <p>Выберите игру и получите проверенный скрипт</p>
+                <p>Выберите игру и получите проверенные скрипты</p>
                 
                 <div class="telegram-banner">
                     <div class="telegram-icon">📱</div>
                     <div class="telegram-info">
                         <div class="telegram-title">Больше скриптов в Telegram!</div>
-                        <div class="telegram-desc">Подпишитесь на наш канал для новых скриптов</div>
+                        <div class="telegram-desc">Подпишитесь на наш канал для новых скриптов и обновлений</div>
                     </div>
                     <a href="https://t.me/Lua_Rbx" target="_blank" class="telegram-btn">
                         Подписаться →
@@ -730,8 +1073,16 @@
             </div>
         </section>
 
-        <section class="search-section">
+        <section class="filter-section">
             <div class="container">
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">Все</button>
+                    <button class="filter-btn" data-filter="FPS">FPS</button>
+                    <button class="filter-btn" data-filter="RPG">RPG</button>
+                    <button class="filter-btn" data-filter="OBBY">OBBY</button>
+                    <button class="filter-btn" data-filter="PETS">PETS</button>
+                    <button class="filter-btn" data-filter="HORROR">HORROR</button>
+                </div>
                 <div class="search-bar">
                     <input type="text" placeholder="🔍 Поиск игры..." id="searchInput">
                 </div>
@@ -741,26 +1092,74 @@
         <section class="scripts-section" id="scripts">
             <div class="container">
                 <h2 class="section-title">Выберите игру</h2>
-                <div class="scripts-grid" id="gamesGrid">
-                    <!-- Games will be added by JavaScript -->
-                </div>
+                <div class="scripts-grid" id="gamesGrid"></div>
             </div>
         </section>
 
-        <!-- Script Modal -->
-        <div class="modal" id="scriptModal">
-            <div class="modal-content">
-                <span class="close-btn" id="closeModal">&times;</span>
-                <h2 class="modal-title" id="modalTitle"></h2>
-                <div class="script-box">
-                    <pre id="scriptCode"></pre>
+        <section class="faq-section" id="faq">
+            <div class="container">
+                <h2 class="section-title">Часто задаваемые вопросы</h2>
+                <div class="faq-grid">
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            Как использовать скрипты?
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            Вам понадобится эксекутор (например, Solara, Wave, Arceus X). Скопируйте скрипт с нашего сайта, вставьте в эксекутор и нажмите Execute. Убедитесь, что вы находитесь в нужной игре!
+                        </div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            Какой эксекутор лучше?
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            Для ПК рекомендуем Solara или Wave (бесплатные). Для мобильных устройств - Arceus X (Android) или Delta (iOS). Все они безопасны и регулярно обновляются.
+                        </div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            Безопасно ли это?
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            Все скрипты на нашем сайте проверены. Однако использование любых скриптов в Roblox нарушает правила игры и может привести к бану аккаунта. Используйте на свой риск!
+                        </div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            Скрипт не работает, что делать?
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            Попробуйте другой скрипт для той же игры (у нас их несколько). Убедитесь, что ваш эксекутор обновлён до последней версии. Некоторые скрипты требуют ключи - проверьте описание.
+                        </div>
+                    </div>
                 </div>
-                <button class="copy-btn" id="copyBtn">
-                    <span id="copyText">📋 Скопировать скрипт</span>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="scriptModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            
+            <div class="subscription-check" id="subscriptionCheck">
+                <h3>🔒 Подпишитесь на наш Telegram канал</h3>
+                <p>Чтобы получить доступ к скриптам, подпишитесь на наш канал</p>
+                <a href="https://t.me/Lua_Rbx" target="_blank" class="subscribe-btn">
+                    📱 Подписаться на канал
+                </a>
+                <button class="check-subscription-btn" onclick="checkSubscription()">
+                    ✓ Я подписался, показать скрипты
                 </button>
             </div>
+
+            <div class="scripts-list" id="scriptsList"></div>
         </div>
-    </main>
+    </div>
 
     <footer>
         <div class="container">
@@ -776,9 +1175,9 @@
                 <div class="footer-section">
                     <h3>Скрипты</h3>
                     <ul>
-                        <li><a href="#roblox">Roblox</a></li>
-                        <li><a href="#minecraft">Minecraft</a></li>
-                        <li><a href="#other">Другие игры</a></li>
+                        <li><a href="#roblox">Roblox Scripts</a></li>
+                        <li><a href="#popular">Популярные</a></li>
+                        <li><a href="#new">Новые</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -805,100 +1204,42 @@
     </footer>
 
     <script>
-        // Games data with scripts
         const games = [
-            {
-                title: "Arsenal",
-                icon: "🎯",
-                description: "Aimbot, ESP, Silent Aim, Infinite Ammo",
-                tags: ["FPS", "AIMBOT"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/FELIPEHUB1/Felipehub-scripts/refs/heads/main/Arsenal"))()`
-            },
-            {
-                title: "Blox Fruits",
-                icon: "🍎",
-                description: "Auto Farm, Auto Raid, Fast Attack, Level Farm",
-                tags: ["RPG", "AUTO FARM"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/bloxfruits.lua"))()`
-            },
-            {
-                title: "Jailbreak",
-                icon: "🚓",
-                description: "Auto Rob, ESP, Teleport, Infinite Cash",
-                tags: ["OPEN WORLD", "ESP"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/jailbreak.lua"))()`
-            },
-            {
-                title: "Murder Mystery 2",
-                icon: "🔪",
-                description: "Role ESP, Auto Win, Coin Farm, Aimbot",
-                tags: ["MYSTERY", "ESP"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/mm2.lua"))()`
-            },
-            {
-                title: "Adopt Me",
-                icon: "🐾",
-                description: "Auto Trade, Pet Duplication, Money Farm",
-                tags: ["PETS", "TRADING"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/adoptme.lua"))()`
-            },
-            {
-                title: "Pet Simulator X",
-                icon: "🐕",
-                description: "Auto Farm, Auto Hatch, Egg Dupe, Speed",
-                tags: ["PETS", "AUTO FARM"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/petx.lua"))()`
-            },
-            {
-                title: "Phantom Forces",
-                icon: "🔫",
-                description: "Aimbot, Recoil Control, ESP, Wallhack",
-                tags: ["FPS", "AIMBOT"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/phantom.lua"))()`
-            },
-            {
-                title: "Brookhaven",
-                icon: "🏠",
-                description: "Teleport, Fly, Speed, Noclip",
-                tags: ["ROLEPLAY", "FLY"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/brookhaven.lua"))()`
-            },
-            {
-                title: "Tower of Hell",
-                icon: "🗼",
-                description: "Auto Win, Skip Stages, Fly, Speed Boost",
-                tags: ["OBBY", "AUTO WIN"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/toh.lua"))()`
-            },
-            {
-                title: "Da Hood",
-                icon: "🏙️",
-                description: "Aimbot, Silent Aim, ESP, Auto Farm Cash",
-                tags: ["PVP", "AIMBOT"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/dahood.lua"))()`
-            },
-            {
-                title: "Bee Swarm Simulator",
-                icon: "🐝",
-                description: "Auto Farm, Auto Quest, Instant Collect",
-                tags: ["SIMULATOR", "AUTO FARM"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/beeswarm.lua"))()`
-            },
-            {
-                title: "Islands",
-                icon: "🏝️",
-                description: "Auto Farm, Dupe Items, Fast Build",
-                tags: ["SURVIVAL", "FARM"],
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/islands.lua"))()`
-            }
+            { title: "Arsenal", icon: "🎯", color: "linear-gradient(135deg, #ff6b6b, #ff4757)", description: "Aimbot, ESP, Silent Aim, Infinite Ammo", tags: ["FPS", "AIMBOT"], isNew: true, scripts: [{ name: "FelipeHub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/FELIPEHUB1/Felipehub-scripts/refs/heads/main/Arsenal"))()`, status: "working" }, { name: "QuotasHub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/Insertl/QuotasHub/main/BETAv1.3"))()`, status: "working" }, { name: "Z3US", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/blackowl1231/Z3US/refs/heads/main/main.lua"))()`, status: "working" }] },
+            { title: "Blox Fruits", icon: "🍎", color: "linear-gradient(135deg, #667eea, #764ba2)", description: "Auto Farm, Auto Raid, Fast Attack", tags: ["RPG", "AUTO FARM"], scripts: [{ name: "LongHiHi V2", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/longhihilonghihi-hub/Devs-LongHiHiV2/refs/heads/main/MainV2.txt"))()`, status: "working" }, { name: "Luarmor Script 1", code: `repeat task.wait() until game:IsLoaded() and game:GetService("Players") and game.Players.LocalPlayer and game.Players.LocalPlayer:FindFirstChild("PlayerGui")\n\nloadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/e86ed284a22672d29e906214e7bbf8b9.lua"))()`, status: "working" }, { name: "Luarmor Script 2", code: `loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/5946add9ab91f1e04cb005346a8b1968.lua"))()`, status: "working" }] },
+            { title: "Murder Mystery 2", icon: "🔪", color: "linear-gradient(135deg, #f093fb, #f5576c)", description: "Role ESP, Auto Win, Coin Farm", tags: ["MYSTERY", "ESP"], scripts: [{ name: "Vertex", code: `loadstring(game:HttpGet('https://raw.smokingscripts.org/vertex.lua'))()`, status: "working" }, { name: "SnapSanixHUB", code: `loadstring(game:HttpGet('https://raw.githubusercontent.com/Roman34296589/SnapSanixHUB/refs/heads/main/SnapSanixHUB.lua'))()`, status: "working" }] },
+            { title: "Adopt Me", icon: "🐾", color: "linear-gradient(135deg, #4facfe, #00f2fe)", description: "Auto Trade, Pet Duplication", tags: ["PETS", "TRADING"], scripts: [{ name: "Elysia", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/eIysia-dev/release/refs/heads/main/open-src.lua"))()`, status: "working" }] },
+            { title: "Pet Simulator X", icon: "🐕", color: "linear-gradient(135deg, #fccb90, #d57eeb)", description: "Auto Farm, Auto Hatch, Egg Dupe", tags: ["PETS", "AUTO FARM"], scripts: [{ name: "ExtremeHub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/ExtremeAntonis/extremehub/main/loader.lua"))()`, status: "working" }] },
+            { title: "Brookhaven", icon: "🏠", color: "linear-gradient(135deg, #43e97b, #38f9d7)", description: "Teleport, Fly, Speed, Noclip", tags: ["ROLEPLAY", "FLY"], scripts: [{ name: "SP Hub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/as6cd0/SP_Hub/refs/heads/main/Brookhaven"))()`, status: "working" }, { name: "Pastebin Script", code: `loadstring(game:HttpGet("https://pastebin.com/raw/LCmR8qkj"))()`, status: "working" }] },
+            { title: "Tower of Hell", icon: "🗼", color: "linear-gradient(135deg, #fa709a, #fee140)", description: "Auto Win, Skip Stages, Fly", tags: ["OBBY", "AUTO WIN"], scripts: [{ name: "TheBigHubs", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/toh.lua"))()`, status: "working" }] },
+            { title: "Da Hood", icon: "🏙️", color: "linear-gradient(135deg, #a8edea, #fed6e3)", description: "Aimbot, Silent Aim, ESP", tags: ["PVP", "AIMBOT"], scripts: [{ name: "Vortex", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/ImagineProUser/vortexdahood/main/vortex", true))()`, status: "working" }] },
+            { title: "Bee Swarm Simulator", icon: "🐝", color: "linear-gradient(135deg, #ffecd2, #fcb69f)", description: "Auto Farm, Auto Quest", tags: ["SIMULATOR", "AUTO FARM"], scripts: [{ name: "Kron Hub", code: `loadstring(game:HttpGet('https://raw.githubusercontent.com/DevKron/Kron_Hub/refs/heads/main/version_1.0'))("")`, status: "working" }] },
+            { title: "Escape Tsunami For Brainrots", icon: "🌊", color: "linear-gradient(135deg, #89f7fe, #66a6ff)", description: "Auto Win, Speed, ESP", tags: ["OBBY", "SPEED"], isNew: true, scripts: [{ name: "Rat Hub X", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/Ratkinator/RatX/refs/heads/main/Loader.lua",true))()`, status: "working" }, { name: "Mamaboy Hub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/nhandzqua1733-blip/mamaboyhubdZ/refs/heads/main/WindUI.lua.txt"))()`, status: "working" }, { name: "RexBR HUB", code: `loadstring(game:HttpGet("https://pastebin.com/raw/pCMCfnmV"))()`, status: "working" }, { name: "Blessed Hub X", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/mynamewendel-ctrl/Blessed-Hub-X-/refs/heads/main/Escape%20Tsunami%20For%20Brainrots.lua"))()`, status: "not-working" }, { name: "JNHH / Tsunami Hub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/JNHHGaming/Tsunami/4dc0882e51b4068b4bdd8d9c97e0aed7c2d61c80/Brainrots",true))()`, status: "working" }, { name: "OksakaTP2", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/osakaTP2/OsakaTP2/main/Escape%20tsunamiV3.5"))()`, status: "working" }, { name: "Warp Hub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/1heo2fine/Lucky-Hub/refs/heads/main/script.lua"))()`, status: "key-required", note: "Ключ: luckyhub727" }, { name: "ErrorServerHub", code: `loadstring(game:HttpGet("https://gist.githubusercontent.com/ErrorServer-Hub/ea26e3d6a211d3f7f695b2fdc840062a/raw/b282c071597c19189d5fdeafbecfa4a3860a6701/ErrorServer.Escape%2520Tsunami.lua."))()`, status: "working" }] },
+            { title: "99 Nights in the Forest", icon: "🌲", color: "linear-gradient(135deg, #3f5efb, #fc466b)", description: "ESP, Infinite Health, Auto Farm", tags: ["HORROR", "SURVIVAL"], isNew: true, scripts: [{ name: "Voidware", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest.lua", true))()`, status: "working" }, { name: "Raygull's Utility", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/raygull3d/99-Nights-in-the-Forest-Script/refs/heads/main/99%20Days%20Scirpt%20By%20Raygull.lua"))()`, status: "working" }, { name: "Rx1m / CpsHub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/Rx1m/CpsHub/refs/heads/main/Hub", true))()`, status: "working" }, { name: "H4xScripts", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/H4xScripts/Loader/refs/heads/main/loader2.lua", true))()`, status: "working" }, { name: "AXS-Script", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/AXS-Main/AXS-Script/refs/heads/main/AXS-HUB/Main/Loader"))()`, status: "working" }, { name: "ProBaconHub", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/ProBaconHub/DATABASE/refs/heads/main/99%20Nights%20in%20the%20Forest/Infinite%20Health.lua"))()`, status: "working", note: "Бесконечное здоровье" }] },
+            { title: "Rivals", icon: "⚔️", color: "linear-gradient(135deg, #ff9a9e, #fecfef)", description: "Aimbot, ESP, Silent Aim", tags: ["FPS", "AIMBOT"], isNew: true, scripts: [{ name: "Vylera Scripts", code: `loadstring(game:HttpGet("https://raw.githubusercontent.com/vylerascripts/vylera-scripts/main/vylerarivals.lua"))()`, status: "working" }] }
         ];
 
-        // Render games
+        let currentGameIndex = 0;
+        let isSubscribed = localStorage.getItem('isSubscribed') === 'true';
+        let currentFilter = 'all';
+        let allGames = games;
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.querySelector('.toast-text').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
         function renderGames(gamesToRender = games) {
             const grid = document.getElementById('gamesGrid');
             grid.innerHTML = gamesToRender.map((game, index) => `
-                <div class="script-card" onclick="openModal(${index})" style="animation-delay: ${index * 0.1}s">
-                    <div class="card-image">${game.icon}</div>
+                <div class="script-card" onclick="openModal(${games.indexOf(game)})" data-index="${index}">
+                    ${game.isNew ? '<div class="new-badge">NEW</div>' : ''}
+                    <div class="card-image">
+                        <div class="card-image-bg" style="background: ${game.color}"></div>
+                        <div class="card-image-icon">${game.icon}</div>
+                    </div>
                     <div class="card-content">
                         <h3 class="card-title">${game.title}</h3>
                         <p class="card-description">${game.description}</p>
@@ -908,17 +1249,37 @@
                     </div>
                 </div>
             `).join('');
+            
+            observeCards();
         }
 
-        // Modal functionality
+        function observeCards() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.script-card').forEach(card => observer.observe(card));
+        }
+
         const modal = document.getElementById('scriptModal');
-        const closeBtn = document.getElementById('closeModal');
-        const copyBtn = document.getElementById('copyBtn');
 
         function openModal(gameIndex) {
-            const game = games[gameIndex];
-            document.getElementById('modalTitle').textContent = game.title;
-            document.getElementById('scriptCode').textContent = game.script;
+            currentGameIndex = gameIndex;
+            document.getElementById('modalTitle').textContent = games[gameIndex].title;
+            
+            if (isSubscribed) {
+                document.getElementById('subscriptionCheck').style.display = 'none';
+                document.getElementById('scriptsList').classList.add('visible');
+                renderScripts(games[gameIndex].scripts);
+            } else {
+                document.getElementById('subscriptionCheck').style.display = 'block';
+                document.getElementById('scriptsList').classList.remove('visible');
+            }
+            
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -926,66 +1287,100 @@
         function closeModal() {
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
-            // Reset copy button
-            document.getElementById('copyText').textContent = '📋 Скопировать скрипт';
-            copyBtn.classList.remove('copied');
         }
 
-        closeBtn.addEventListener('click', closeModal);
+        function checkSubscription() {
+            isSubscribed = true;
+            localStorage.setItem('isSubscribed', 'true');
+            document.getElementById('subscriptionCheck').style.display = 'none';
+            document.getElementById('scriptsList').classList.add('visible');
+            renderScripts(games[currentGameIndex].scripts);
+        }
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
+        function renderScripts(scripts) {
+            document.getElementById('scriptsList').innerHTML = scripts.map((script, index) => `
+                <div class="script-item">
+                    <div class="script-header">
+                        <div class="script-name">${script.name}</div>
+                        <div class="script-status ${script.status === 'working' ? '' : script.status === 'not-working' ? 'not-working' : 'key-required'}">
+                            ${script.status === 'working' ? '✓ Работает' : script.status === 'not-working' ? '✗ Не работает' : '🔑 Требует ключ'}
+                        </div>
+                    </div>
+                    ${script.note ? `<p style="color: var(--text-dim); margin-bottom: 12px; font-size: 14px;">ℹ️ ${script.note}</p>` : ''}
+                    <div class="script-box">
+                        <pre id="scriptCode${index}">${script.code}</pre>
+                    </div>
+                    <button class="copy-btn" onclick="copyScript(${index})">
+                        <span id="copyText${index}">📋 Скопировать скрипт</span>
+                    </button>
+                </div>
+            `).join('');
+        }
 
-        // Copy script functionality
-        copyBtn.addEventListener('click', () => {
-            const scriptCode = document.getElementById('scriptCode').textContent;
+        function copyScript(index) {
+            const scriptCode = document.getElementById(`scriptCode${index}`).textContent;
             navigator.clipboard.writeText(scriptCode).then(() => {
-                document.getElementById('copyText').textContent = '✅ Скопировано!';
-                copyBtn.classList.add('copied');
-                setTimeout(() => {
-                    document.getElementById('copyText').textContent = '📋 Скопировать скрипт';
-                    copyBtn.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                console.error('Ошибка копирования:', err);
-                alert('Не удалось скопировать. Попробуйте выделить и скопировать вручную.');
+                showToast('✓ Скрипт скопирован!');
             });
-        });
+        }
 
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filtered = games.filter(game => 
-                game.title.toLowerCase().includes(searchTerm) ||
-                game.description.toLowerCase().includes(searchTerm) ||
-                game.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-            );
-            renderGames(filtered);
-        });
+        function toggleFaq(element) {
+            element.classList.toggle('open');
+        }
 
-        // Initial render
-        renderGames();
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                currentFilter = filter;
+                
+                if (filter === 'all') {
+                    renderGames(games);
+                } else {
+                    const filtered = games.filter(g => g.tags.includes(filter));
+                    renderGames(filtered);
                 }
             });
         });
 
-        // Escape key to close modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            let filtered = games;
+            
+            if (currentFilter !== 'all') {
+                filtered = games.filter(g => g.tags.includes(currentFilter));
             }
+            
+            if (term) {
+                filtered = filtered.filter(g => 
+                    g.title.toLowerCase().includes(term) ||
+                    g.description.toLowerCase().includes(term) ||
+                    g.tags.some(t => t.toLowerCase().includes(term))
+                );
+            }
+            
+            renderGames(filtered);
+        });
+
+        renderGames();
+
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                const t = document.querySelector(this.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
         });
     </script>
 </body>
