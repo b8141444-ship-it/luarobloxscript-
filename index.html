@@ -140,6 +140,23 @@
             width: 100%;
         }
 
+        .telegram-link {
+            background: linear-gradient(135deg, #0088cc, #00aaff) !important;
+            padding: 8px 20px !important;
+            border-radius: 8px !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .telegram-link:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 24px rgba(0, 136, 204, 0.4) !important;
+        }
+
+        .telegram-link::after {
+            display: none !important;
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
@@ -178,6 +195,74 @@
             margin: 0 auto 48px;
             line-height: 1.7;
             animation: fadeIn 0.8s ease-out 0.2s backwards;
+        }
+
+        .telegram-banner {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.15), rgba(0, 170, 255, 0.1));
+            border: 2px solid rgba(0, 136, 204, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            animation: fadeIn 0.8s ease-out 0.4s backwards;
+            transition: all 0.3s ease;
+        }
+
+        .telegram-banner:hover {
+            border-color: rgba(0, 136, 204, 0.6);
+            box-shadow: 0 12px 48px rgba(0, 136, 204, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .telegram-icon {
+            font-size: 64px;
+            flex-shrink: 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .telegram-info {
+            flex: 1;
+        }
+
+        .telegram-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .telegram-desc {
+            font-size: 16px;
+            color: var(--text-dim);
+        }
+
+        .telegram-btn {
+            background: linear-gradient(135deg, #0088cc, #00aaff);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 8px 24px rgba(0, 136, 204, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .telegram-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 12px 32px rgba(0, 136, 204, 0.5);
         }
 
         @keyframes fadeIn {
@@ -592,6 +677,20 @@
             .modal-title {
                 font-size: 24px;
             }
+
+            .telegram-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px;
+            }
+
+            .telegram-icon {
+                font-size: 48px;
+            }
+
+            .telegram-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -605,8 +704,7 @@
                 <ul class="nav-links">
                     <li><a href="#home">Главная</a></li>
                     <li><a href="#scripts">Скрипты</a></li>
-                    <li><a href="#mobile">Mobile</a></li>
-                    <li><a href="#emulator">Эмулятор</a></li>
+                    <li><a href="https://t.me/Lua_Rbx" target="_blank" class="telegram-link">📱 Telegram</a></li>
                 </ul>
                 <button class="mobile-menu-btn">☰</button>
             </nav>
@@ -618,6 +716,17 @@
             <div class="container">
                 <h1>Лучшие Lua Скрипты<br>для Roblox</h1>
                 <p>Выберите игру и получите проверенный скрипт</p>
+                
+                <div class="telegram-banner">
+                    <div class="telegram-icon">📱</div>
+                    <div class="telegram-info">
+                        <div class="telegram-title">Больше скриптов в Telegram!</div>
+                        <div class="telegram-desc">Подпишитесь на наш канал для новых скриптов</div>
+                    </div>
+                    <a href="https://t.me/Lua_Rbx" target="_blank" class="telegram-btn">
+                        Подписаться →
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -683,8 +792,8 @@
                 <div class="footer-section">
                     <h3>Социальные сети</h3>
                     <ul>
+                        <li><a href="https://t.me/Lua_Rbx" target="_blank">📱 Telegram канал</a></li>
                         <li><a href="#discord">Discord</a></li>
-                        <li><a href="#telegram">Telegram</a></li>
                         <li><a href="#youtube">YouTube</a></li>
                     </ul>
                 </div>
@@ -701,65 +810,86 @@
             {
                 title: "Arsenal",
                 icon: "🎯",
-                description: "Aimbot, ESP, Silent Aim",
-                tags: ["FPS", "PVP"],
+                description: "Aimbot, ESP, Silent Aim, Infinite Ammo",
+                tags: ["FPS", "AIMBOT"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/FELIPEHUB1/Felipehub-scripts/refs/heads/main/Arsenal"))()`
             },
             {
                 title: "Blox Fruits",
                 icon: "🍎",
-                description: "Auto Farm, Auto Raid, Fast Attack",
+                description: "Auto Farm, Auto Raid, Fast Attack, Level Farm",
                 tags: ["RPG", "AUTO FARM"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/bloxfruits.lua"))()`
             },
             {
                 title: "Jailbreak",
                 icon: "🚓",
-                description: "Auto Rob, ESP, Teleport",
+                description: "Auto Rob, ESP, Teleport, Infinite Cash",
                 tags: ["OPEN WORLD", "ESP"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/jailbreak.lua"))()`
             },
             {
                 title: "Murder Mystery 2",
                 icon: "🔪",
-                description: "Role ESP, Auto Win, Coin Farm",
+                description: "Role ESP, Auto Win, Coin Farm, Aimbot",
                 tags: ["MYSTERY", "ESP"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/mm2.lua"))()`
             },
             {
                 title: "Adopt Me",
                 icon: "🐾",
-                description: "Auto Trade, Pet Duplication",
+                description: "Auto Trade, Pet Duplication, Money Farm",
                 tags: ["PETS", "TRADING"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/adoptme.lua"))()`
             },
             {
                 title: "Pet Simulator X",
                 icon: "🐕",
-                description: "Auto Farm, Auto Hatch, Dupe",
+                description: "Auto Farm, Auto Hatch, Egg Dupe, Speed",
                 tags: ["PETS", "AUTO FARM"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/petx.lua"))()`
             },
             {
                 title: "Phantom Forces",
                 icon: "🔫",
-                description: "Aimbot, Recoil Control, ESP",
+                description: "Aimbot, Recoil Control, ESP, Wallhack",
                 tags: ["FPS", "AIMBOT"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/phantom.lua"))()`
             },
             {
                 title: "Brookhaven",
                 icon: "🏠",
-                description: "Teleport, Fly, Speed",
+                description: "Teleport, Fly, Speed, Noclip",
                 tags: ["ROLEPLAY", "FLY"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/brookhaven.lua"))()`
             },
             {
                 title: "Tower of Hell",
                 icon: "🗼",
-                description: "Auto Win, Skip Stages, Fly",
+                description: "Auto Win, Skip Stages, Fly, Speed Boost",
                 tags: ["OBBY", "AUTO WIN"],
                 script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/toh.lua"))()`
+            },
+            {
+                title: "Da Hood",
+                icon: "🏙️",
+                description: "Aimbot, Silent Aim, ESP, Auto Farm Cash",
+                tags: ["PVP", "AIMBOT"],
+                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/dahood.lua"))()`
+            },
+            {
+                title: "Bee Swarm Simulator",
+                icon: "🐝",
+                description: "Auto Farm, Auto Quest, Instant Collect",
+                tags: ["SIMULATOR", "AUTO FARM"],
+                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/beeswarm.lua"))()`
+            },
+            {
+                title: "Islands",
+                icon: "🏝️",
+                description: "Auto Farm, Dupe Items, Fast Build",
+                tags: ["SURVIVAL", "FARM"],
+                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/example/islands.lua"))()`
             }
         ];
 
